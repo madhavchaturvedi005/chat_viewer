@@ -375,14 +375,12 @@ export default function ChatViewer() {
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30L0 0h60L30 30zM30 30l30 30H0l30-30z' fill='%23e5ddd5' fill-opacity='0.1'/%3E%3C/svg%3E")`,
         backgroundColor: '#e5ddd5'
       }}>
-        {Object.entries(messageGroups).map(([date, msgs]) => {
-          let messageIndex = 0;
-          return (
-            <div key={date} className="mb-4">
-              <div className="flex justify-center my-3">
-                <div className="bg-white bg-opacity-90 rounded-md px-3 py-1 shadow-sm">
-                  <p className="text-xs text-gray-600">{date}</p>
-                </div>
+        {Object.entries(messageGroups).map(([date, msgs]) => (
+          <div key={date} className="mb-4">
+            <div className="flex justify-center my-3">
+              <div className="bg-white bg-opacity-90 rounded-md px-3 py-1 shadow-sm">
+                <p className="text-xs text-gray-600">{date}</p>
+              </div>
               </div>
               
               {msgs.map((msg, idx) => {
@@ -413,8 +411,7 @@ export default function ChatViewer() {
                 );
               })}
             </div>
-          );
-        })}
+          ))}
       </div>
 
       <div className="bg-gray-100 px-4 py-2 flex items-center gap-2 border-t">
