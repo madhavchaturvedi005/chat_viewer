@@ -668,26 +668,102 @@ export default function ChatViewer() {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {messages.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center p-6">
-            <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
-              <div className="text-center">
-                <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Upload className="w-10 h-10 text-white" />
+          <div className="flex-1 flex items-center justify-center p-6 bg-gradient-to-br from-green-50 via-white to-pink-50">
+            <div className="max-w-2xl w-full">
+              {/* Header */}
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-green-500 via-teal-500 to-pink-500 rounded-3xl shadow-2xl mb-6 transform hover:scale-105 transition-transform">
+                  <MessageCircle className="w-12 h-12 text-white" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-800 mb-2">Chat Viewer</h1>
-                <p className="text-gray-600 mb-6">Upload WhatsApp (.txt) or Instagram (.html) chat exports</p>
-                
-                <label className="cursor-pointer">
+                <h1 className="text-5xl font-bold text-gray-800 mb-3">Chat Viewer</h1>
+                <p className="text-lg text-gray-600">View and search your exported chats with a beautiful interface</p>
+              </div>
+
+              {/* Upload Cards */}
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                {/* WhatsApp Card */}
+                <label className="cursor-pointer group">
                   <input
                     type="file"
-                    accept=".txt,.html"
+                    accept=".txt"
                     onChange={(e) => handleFileUpload(e, 'whatsapp')}
                     className="hidden"
                   />
-                  <span className="inline-block bg-gradient-to-r from-green-500 to-pink-500 text-white px-8 py-3 rounded-lg hover:opacity-90 transition-opacity font-medium">
-                    Choose Chat File
-                  </span>
+                  <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-green-500 transform hover:-translate-y-1">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-green-500 transition-colors">
+                        <MessageCircle className="w-8 h-8 text-green-600 group-hover:text-white transition-colors" />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">WhatsApp</h3>
+                      <p className="text-sm text-gray-600 mb-4">Upload your WhatsApp chat export</p>
+                      <div className="inline-flex items-center gap-2 text-green-600 font-medium group-hover:text-green-700">
+                        <Upload className="w-4 h-4" />
+                        <span>Choose .txt file</span>
+                      </div>
+                    </div>
+                  </div>
                 </label>
+
+                {/* Instagram Card */}
+                <label className="cursor-pointer group">
+                  <input
+                    type="file"
+                    accept=".html"
+                    onChange={(e) => handleFileUpload(e, 'instagram')}
+                    className="hidden"
+                  />
+                  <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-pink-500 transform hover:-translate-y-1">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-100 rounded-2xl flex items-center justify-center mb-4 group-hover:from-yellow-400 group-hover:via-pink-500 group-hover:to-purple-600 transition-all">
+                        <Send className="w-8 h-8 text-pink-600 group-hover:text-white transition-colors" />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">Instagram</h3>
+                      <p className="text-sm text-gray-600 mb-4">Upload your Instagram chat export</p>
+                      <div className="inline-flex items-center gap-2 text-pink-600 font-medium group-hover:text-pink-700">
+                        <Upload className="w-4 h-4" />
+                        <span>Choose .html file</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* Features */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg">
+                <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4 text-center">Features</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <Search className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Advanced Search</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <MessageCircle className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Multiple Chats</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <Heart className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Reactions</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                      <Smile className="w-5 h-5 text-teal-600" />
+                    </div>
+                    <p className="text-xs text-gray-600">Beautiful UI</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Instructions */}
+              <div className="mt-8 text-center">
+                <p className="text-sm text-gray-500">
+                  Export your chats from WhatsApp or Instagram and upload them here to view
+                </p>
               </div>
             </div>
           </div>
