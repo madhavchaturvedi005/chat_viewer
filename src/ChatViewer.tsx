@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Upload, Search, MoreVertical, Paperclip, Smile, Mic, Phone, Video, Info, MessageCircle, Heart, Send, ChevronUp, ChevronDown, X } from 'lucide-react';
+import { Upload, Search, MoreVertical, Paperclip, Smile, Mic, Phone, Video, Info, MessageCircle, Heart, Send, ChevronUp, ChevronDown, X, Trash2 } from 'lucide-react';
 
 interface Message {
   date: string;
@@ -32,6 +32,50 @@ export default function ChatViewer() {
   const scrollTimeout = useRef<number | null>(null);
 
   const contactNames: Record<string, string> = {};
+
+  // Load messages from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedMessages = localStorage.getItem('chatViewerMessages');
+      const savedUser = localStorage.getItem('chatViewerCurrentUser');
+      
+      if (savedMessages) {
+        const parsed = JSON.parse(savedMessages);
+        setMessages(parsed);
+      }
+      
+      if (savedUser) {
+        setCurrentUser(savedUser);
+      }
+    } catch (error) {
+      console.error('Error loading cached messages:', error);
+    }
+  }, []);
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      try {
+        localStorage.setItem('chatViewerMessages', JSON.stringify(messages));
+        localStorage.setItem('chatViewerCurrentUser', currentUser);
+      } catch (error) {
+        console.error('Error saving messages to cache:', error);
+      }
+    }
+  }, [messages, currentUser]);
+
+  // Clear cache function
+  const clearCache = () => {
+    if (confirm('Are you sure you want to clear all cached messages? This cannot be undone.')) {
+      localStorage.removeItem('chatViewerMessages');
+      localStorage.removeItem('chatViewerCurrentUser');
+      setMessages([]);
+      setCurrentUser('');
+      setSelectedChat(null);
+      setSearchQuery('');
+      setShowSearch(false);
+    }
+  };
 
   const parseWhatsAppFile = (text: string): Message[] => {
     const lines = text.split('\n');
@@ -600,7 +644,7 @@ export default function ChatViewer() {
           >
             <Send className={`w-6 h-6 ${platform === 'instagram' ? 'text-pink-600' : 'text-gray-600'}`} />
           </div>
-          <label className="w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors mt-auto">
+          <label className="w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors">
             <Upload className="w-6 h-6 text-gray-600" />
             <input
               type="file"
@@ -609,6 +653,13 @@ export default function ChatViewer() {
               className="hidden"
             />
           </label>
+          <button 
+            onClick={clearCache}
+            className="w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer hover:bg-red-100 transition-colors"
+            title="Clear cached messages"
+          >
+            <Trash2 className="w-6 h-6 text-gray-600 hover:text-red-600" />
+          </button>
         </div>
       )}
 
@@ -761,8 +812,11 @@ export default function ChatViewer() {
 
               {/* Instructions */}
               <div className="mt-8 text-center">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 mb-2">
                   Export your chats from WhatsApp or Instagram and upload them here to view
+                </p>
+                <p className="text-xs text-gray-400">
+                  💾 Your uploaded chats are automatically saved in browser cache
                 </p>
               </div>
             </div>

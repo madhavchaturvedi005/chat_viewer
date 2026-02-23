@@ -40,3 +40,7 @@ npm run build
 - Multiple chat support
 - Date grouping
 - Responsive design with Tailwind CSS
+- Browser cache storage:
+  - Automatically saves uploaded chats to localStorage
+  - Chats persist across browser sessions
+  - Clear cache button to remove all stored data
